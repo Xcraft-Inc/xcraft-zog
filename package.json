@@ -1,0 +1,16 @@
+{
+  "name": "xcraft-zog",
+  "version": "0.1.0",
+  "description": "Xcraft Zog shell",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "shell": "~0.3.2",
+    "xcraft-core-bin": "0.1.0",
+    "xcraft-bus-client": "0.1.0"
+  },
+  "author": "Samuel Loup & Mathieu Schroeter",
+  "license": "BSD-2-Clause"
+}
