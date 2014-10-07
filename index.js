@@ -1,22 +1,22 @@
 'use strict';
 
-var shell = require('shell');
+var Shell = require('shell');
 var zogConfig  = require ('./zogConfig.js') ();
 var zogBoot    = require ('./zogBoot.js');
 var boot = true;
 
 
 var main = function () {
-  var app = new shell({
+  var app = new Shell ({
               chdir: __dirname,
               prompt: '\xb4>'
             });
   /* Middleware registration */
   app.configure(function () {
-    app.use(shell.history({
+    app.use(Shell.history({
       shell: app
     }));
-    app.use(shell.completer({
+    app.use(Shell.completer({
       shell: app
     }));
     app.use(require('xcraft-core-bin')({
@@ -25,10 +25,10 @@ var main = function () {
     app.use(require('xcraft-core-busclient').shellExt({
       shell: app
     }));
-    app.use(shell.router({
+    app.use(Shell.router({
       shell: app
     }));
-    app.use(shell.help({
+    app.use(Shell.help({
       shell: app,
       introduction: true
     }));
