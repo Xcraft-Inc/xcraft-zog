@@ -9,7 +9,7 @@
   "dependencies": {
     "shell": "~0.3.2",
     "xcraft-core-bin": "0.1.0",
-    "xcraft-bus-client": "0.1.0"
+    "xcraft-core-busclient": "0.1.0"
   },
   "author": "Samuel Loup & Mathieu Schroeter",
   "license": "BSD-2-Clause"
