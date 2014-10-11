@@ -114,7 +114,6 @@ module.exports = function () {
     /* Path helpers. */
     toolchainRoot    : path.resolve ('./'),
     scriptsRoot      : path.resolve ('./scripts/'),
-    libPkgRoot       : path.resolve ('./node_modules/xcraft-contrib-pacman/manager/'),
     zogRc            : path.resolve ('./.zogrc'),
     npmRc            : path.resolve ('./.npmrc'),
     zogBoot          : path.resolve ('./scripts/zogBoot.js'),
