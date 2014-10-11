@@ -137,7 +137,7 @@ module.exports = function () {
     libPkgCreate     : path.resolve ('./node_modules/xcraft-contrib-pacman/manager/pkgCreate.js'),
     libPkgDefinition : path.resolve ('./node_modules/xcraft-contrib-pacman/manager/pkgDefinition.js'),
     libPkgList       : path.resolve ('./node_modules/xcraft-contrib-pacman/manager/pkgList.js'),
-    libPkgWizard     : path.resolve ('./node_modules/xcraft-contrib-pacman/manager/pkgWizard.js'),
+    libPkgWizard     : path.resolve ('./node_modules/xcraft-contrib-pacman/wizard.js'),
     libPkgControl    : path.resolve ('./node_modules/xcraft-contrib-pacman/manager/pkgControl.js'),
     libPkgChangelog  : path.resolve ('./node_modules/xcraft-contrib-pacman/manager/pkgChangelog.js'),
     libPkgMake       : path.resolve ('./node_modules/xcraft-contrib-pacman/manager/pkgMake.js'),
