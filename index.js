@@ -1,7 +1,6 @@
 'use strict';
 
 var Shell = require('shell');
-var zogConfig  = require ('./zogConfig.js') ();
 var zogBoot    = require ('./zogBoot.js');
 var boot = true;
 

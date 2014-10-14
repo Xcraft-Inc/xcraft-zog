@@ -2,11 +2,10 @@
 
 var moduleName = 'zog-boot';
 
-var zogConfig  = require ('./zogConfig.js') ();
 var busBoot    = require ('xcraft-core-bus');
 var busClient  = require ('xcraft-core-busclient');
 var zogLog     = require ('xcraft-core-log') (moduleName);
-
+var xcraftConfig  = require ('xcraft-core-etc').load ('xcraft');
 
 var bootEnv = function () {
   var path = require ('path');
@@ -34,7 +33,7 @@ var bootEnv = function () {
 
   var zogrc = {};
   try {
-    zogrc = JSON.parse (fs.readFileSync (zogConfig.zogRc, 'utf8'));
+    zogrc = JSON.parse (fs.readFileSync (xcraftConfig.zogRc, 'utf8'));
     if (zogrc.hasOwnProperty ('path')) {
       zogrc.path.reverse ().forEach (function (location) {
         list.unshift (location);
@@ -47,8 +46,8 @@ var bootEnv = function () {
   }
 
   list.unshift (path.resolve ('./usr/bin'));
-  list.unshift (path.join (zogConfig.pkgTargetRoot, 'usr/bin'));
-  list.unshift (path.join (zogConfig.pkgTargetRoot, 'bin'));
+  list.unshift (path.join (xcraftConfig.pkgTargetRoot, 'usr/bin'));
+  list.unshift (path.join (xcraftConfig.pkgTargetRoot, 'bin'));
 
   process.env.PATH = list.join (path.delimiter);
   zogLog.verb ('zog env ready');
@@ -63,20 +62,19 @@ exports.start = function (callbackDone) {
   bootEnv ();
 
   busBoot.getEmitter.on ('ready', function () {
-    busClient.configure (zogConfig);
     busClient.connect (busBoot.getToken (), callbackDone);
   });
 
   var commandHandlers = [];
   commandHandlers.push ({
-    path: zogConfig.scriptsRoot,
+    path: xcraftConfig.scriptsRoot,
     pattern: /zog.+\.js$/
   });
 
   var xFs = require ('xcraft-core-fs');
-  xFs.ls (zogConfig.nodeModules, /^xcraft-(core|contrib).*/).forEach (function (item) {
+xFs.ls (xcraftConfig.nodeModules, /^xcraft-(core|contrib).*/).forEach (function (item) {
     commandHandlers.push ({
-      path: path.join (path.join (zogConfig.nodeModules, item)),
+      path: path.join (path.join (xcraftConfig.nodeModules, item)),
       pattern: /.*\.js$/
     });
   });
