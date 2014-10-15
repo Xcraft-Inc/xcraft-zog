@@ -1,14 +1,26 @@
 'use strict';
+var zogLog  = require ('xcraft-core-log') ('zog');
+zogLog.verbosity (0);
+var zogBoot   = require ('./zogBoot.js');
 
-var Shell = require('shell');
-var zogBoot    = require ('./zogBoot.js');
 var boot = true;
-
+var isExiting = false;
 
 var main = function () {
+  var Shell        = require ('shell');
+  var busClient    = require('xcraft-core-busclient');
+  var busCommands  = require('./zogBusCommands.js');
+  var binsCommand  = require('xcraft-core-bin');
+  var mainShutdown = function () {
+    zogLog.verb ('shutdown...');
+    isExiting = true;
+    busClient.stop (function (done) { /* jshint ignore:line */
+      zogBoot.stop ();
+    });
+  };
   var app = new Shell ({
               chdir: __dirname,
-              prompt: '\xb4>'
+              prompt: 'z0g>'
             });
   /* Middleware registration */
   app.configure(function () {
@@ -18,14 +30,13 @@ var main = function () {
     app.use(Shell.completer({
       shell: app
     }));
-    app.use(require('xcraft-core-bin')({
-      shell: app
-    }));
-    app.use(require('xcraft-core-busclient').shellExt({
-      shell: app
-    }));
     app.use(Shell.router({
       shell: app
+    }));
+    app.use(binsCommand({shell: app}));
+    app.use(busCommands.load({
+      shell: app,
+      busClient: busClient
     }));
     app.use(Shell.help({
       shell: app,
@@ -35,11 +46,11 @@ var main = function () {
 
   // Event notification
   app.on('quit', function () {
+    if (!isExiting) {
+      mainShutdown ();
+    }
   });
-
-
 };
-
 
 if (boot) {
   zogBoot.start (main);

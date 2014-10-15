@@ -9,6 +9,7 @@
   "dependencies": {
     "shell": "~0.3.2",
     "xcraft-core-etc": "0.1.0",
+    "xcraft-core-log": "0.1.0",
     "xcraft-core-bin": "0.1.0",
     "xcraft-core-busclient": "0.1.0"
   },
