@@ -1,7 +1,8 @@
 'use strict';
 var zogLog  = require ('xcraft-core-log') ('zog');
 zogLog.verbosity (0);
-var zogBoot   = require ('./zogBoot.js');
+var zogBoot      = require ('./zogBoot.js');
+var xConfig = require ('xcraft-core-etc').load ('xcraft');
 
 var boot = true;
 var isExiting = false;
@@ -19,7 +20,7 @@ var main = function () {
     });
   };
   var app = new Shell ({
-              chdir: __dirname,
+              chdir: xConfig.xcraftRoot,
               prompt: 'z0g>'
             });
   /* Middleware registration */
