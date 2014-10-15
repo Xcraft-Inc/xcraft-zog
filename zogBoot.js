@@ -5,7 +5,7 @@ var moduleName = 'zog-boot';
 var busBoot    = require ('xcraft-core-bus');
 var busClient  = require ('xcraft-core-busclient');
 var zogLog     = require ('xcraft-core-log') (moduleName);
-var xcraftConfig  = require ('xcraft-core-etc').load ('xcraft');
+var xcraftConfig = require ('xcraft-core-etc').load ('xcraft');
 
 var bootEnv = function () {
   var path = require ('path');
@@ -72,7 +72,7 @@ exports.start = function (callbackDone) {
   });
 
   var xFs = require ('xcraft-core-fs');
-xFs.ls (xcraftConfig.nodeModules, /^xcraft-(core|contrib).*/).forEach (function (item) {
+  xFs.ls (xcraftConfig.nodeModules, /^xcraft-(core|contrib).*/).forEach (function (item) {
     commandHandlers.push ({
       path: path.join (path.join (xcraftConfig.nodeModules, item)),
       pattern: /.*\.js$/
