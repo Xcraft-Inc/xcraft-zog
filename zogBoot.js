@@ -2,7 +2,7 @@
 
 var moduleName = 'zog-boot';
 
-var busBoot    = require ('xcraft-core-bus');
+var bus    = require ('xcraft-core-bus');
 var busClient  = require ('xcraft-core-busclient');
 var zogLog     = require ('xcraft-core-log') (moduleName);
 var xcraftConfig = require ('xcraft-core-etc').load ('xcraft');
@@ -53,7 +53,7 @@ var bootEnv = function () {
   zogLog.verb ('zog env ready');
 };
 
-busBoot.getEmitter.on ('stop', function () {
+bus.getEmitter.on ('stop', function () {
   zogLog.verb ('Bus stop event received');
 });
 
@@ -61,8 +61,8 @@ exports.start = function (callbackDone) {
   var path = require ('path');
   bootEnv ();
 
-  busBoot.getEmitter.on ('ready', function () {
-    busClient.connect (busBoot.getToken (), callbackDone);
+  bus.getEmitter.on ('ready', function () {
+    busClient.connect (bus.getToken (), callbackDone);
   });
 
   var commandHandlers = [];
@@ -79,9 +79,12 @@ exports.start = function (callbackDone) {
     });
   });
 
-  busBoot.boot (commandHandlers);
+  bus.boot (commandHandlers);
 };
 
 exports.stop = function () {
-  busBoot.stop ();
+  bus.stop ();
 };
+
+exports.busClient = busClient;
+exports.bus = bus;
