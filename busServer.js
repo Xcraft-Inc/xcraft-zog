@@ -6,7 +6,7 @@ zogLog.verbosity (0);
 
 
 var server = function () {
-  /* Subscribe to the shutdown event, then call mainShutdown. */
+  /* TODO: Subscribe to the shutdown event, then call mainShutdown. */
   var mainShutdown = function () {
     zogLog.verb ('shutdown...');
     zogBoot.stop ();
