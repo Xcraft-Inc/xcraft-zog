@@ -36,7 +36,11 @@ var shellStart = function (busClient) {
 var serverStart = function () {
   var args = [];
   var xProcess = require ('xcraft-core-process');
-  xProcess.fork (path.join (__dirname, './busServer.js'), args, {silent: true});
+  xProcess.fork (path.join (__dirname, './busServer.js'), args, {silent: true}, null, function (line) {
+    console.log ('server: ' + line);
+  }, function (line) {
+    console.log ('server: ' + line);
+  });
 
   var busClient = require ('xcraft-core-busclient');
   busClient.connect (null, function (err) {
