@@ -83,7 +83,9 @@ exports.start = function (callbackDone) {
 };
 
 exports.stop = function () {
-  bus.stop ();
+  busClient.stop (function (done) { /* jshint ignore:line */
+    bus.stop ();
+  });
 };
 
 exports.busClient = busClient;
