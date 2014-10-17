@@ -4,8 +4,41 @@ var inquirer = require ('inquirer');
 var async    = require ('async');
 var path     = require ('path');
 var xLog     = require ('xcraft-core-log') ('zog');
-xLog.verbosity (0);
+xLog.verbosity (0); /* FIXME: make a builtin command */
 
+/* TODO: we must use commander in order to handle the non-shell side of
+ *       zogShell.
+ */
+
+
+var shellCommands = function (cmdList, busClient) {
+  /* Builtin shell commands */
+  var list = {
+    help: {
+      params  : null,
+      desc    : 'list of commands',
+      handler : null
+    },
+    exit: {
+      params  : null,
+      desc    : 'exit zogShell',
+      handler : null
+    }
+  };
+
+  Object.keys (cmdList).forEach (function (cmd) {
+    list[cmd] = {
+      params  : cmdList[cmd].params,
+      desc    : cmdList[cmd].desc,
+      handler : function () {
+        /* TODO: data and finishHandler */
+        busClient.command.send (cmdList[cmd].name, null, null);
+      }
+    };
+  });
+
+  return list;
+};
 
 var shellStart = function (busClient) {
   var shell = [{
@@ -20,15 +53,38 @@ var shellStart = function (busClient) {
     });
   };
 
+  var cmdList = busClient.getCommandsRegistry ();
+  var shellCmdList = shellCommands (cmdList, busClient);
+
+  shellCmdList.help.handler = function () {
+    Object.keys (shellCmdList).forEach (function (cmd) {
+      /* TODO: show desc and params */
+      console.log (cmd);
+    });
+  };
+
+  var exitShell = false;
+  shellCmdList.exit.handler = function () {
+    exitShell = true;
+  };
+
   async.forever (function (next) {
     inquirer.prompt (shell, function (answers) {
-      next ();
+      try {
+        shellCmdList[answers.command].handler ();
+      } catch (ex) {
+        if (answers.command.length) {
+          console.log ('command ' + answers.command + ' unknown');
+        }
+      }
+      next (exitShell ? 'good bye' : null);
     });
   }, function (err) {
     if (err) {
-      xLog.err (err);
+      xLog.info (err);
     }
 
+    /* TODO: send an 'exit' command to the server. */
     mainShutdown ();
   });
 };
