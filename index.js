@@ -40,7 +40,7 @@ var serverStart = function () {
   server.stdout.on ('data', function (data) {
     data.toString ().replace (/\r/g, '').split ('\n').forEach (function (line) {
       if (line.trim ().length) {
-        xLog.verb ('BUS-SERVER: ' + line);
+        console.log ('BUS-SERVER: ' + line);
       }
     });
   });
@@ -48,7 +48,7 @@ var serverStart = function () {
   server.stderr.on ('data', function (data) {
     data.toString ().replace (/\r/g, '').split ('\n').forEach (function (line) {
       if (line.trim ().length) {
-        xLog.verb ('BUS-SERVER: ' + line);
+        console.log ('BUS-SERVER: ' + line);
       }
     });
   });
