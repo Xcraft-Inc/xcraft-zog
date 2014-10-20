@@ -40,18 +40,20 @@ var shellCommands = function (cmdList, busClient) {
   return list;
 };
 
+
 var shellStart = function (busClient) {
-  var shell = [{
-    type    : 'input',
-    name    : 'command',
-    message : 'z0g>'
-  }];
 
   var mainShutdown = function () {
     busClient.stop (function (done) { /* jshint ignore:line */
       xLog.verb ('bus client stopped...');
     });
   };
+
+  var shell = [{
+    type    : 'input',
+    name    : 'command',
+    message : 'z0g>'
+  }];
 
   var cmdList = busClient.getCommandsRegistry ();
   var shellCmdList = shellCommands (cmdList, busClient);
@@ -67,6 +69,10 @@ var shellStart = function (busClient) {
   shellCmdList.exit.handler = function () {
     exitShell = true;
   };
+
+  busClient.events.subscribe ('disconnected', function (msg) {
+    mainShutdown ();
+  });
 
   async.forever (function (next) {
     inquirer.prompt (shell, function (answers) {
@@ -84,8 +90,7 @@ var shellStart = function (busClient) {
       xLog.info (err);
     }
 
-    /* TODO: send an 'exit' command to the server. */
-    mainShutdown ();
+    busClient.command.send ('shutdown');
   });
 };
 
@@ -99,6 +104,7 @@ var serverStart = function () {
   });
 
   var busClient = require ('xcraft-core-busclient');
+
   busClient.connect (null, function (err) {
     shellStart (busClient);
   });

@@ -6,11 +6,12 @@ zogLog.verbosity (0);
 
 
 var server = function () {
-  /* TODO: Subscribe to the shutdown event, then call mainShutdown. */
-  var mainShutdown = function () {
+
+  zogBoot.bus.getCommander().registerShutdownHandler (function () {
+    zogBoot.busClient.events.send ('disconnected');
     zogLog.verb ('shutdown...');
     zogBoot.stop ();
-  };
+  });
 
   zogBoot.bus.getCommander().registerAutoconnectHandler (function () {
     var commander = require ('xcraft-core-bus').getCommander ();
