@@ -11,7 +11,10 @@
     "xcraft-core-log": "0.1.0",
     "xcraft-core-bin": "0.1.0",
     "xcraft-core-busclient": "0.1.0",
-    "xcraft-core-server": "0.1.0"
+    "xcraft-core-server": "0.1.0",
+    "async": "",
+    "commander": "",
+    "inquirer": ""
   },
   "author": "Samuel Loup & Mathieu Schroeter",
   "license": "BSD-2-Clause"
