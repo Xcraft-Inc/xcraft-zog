@@ -2,14 +2,12 @@
 
 var inquirer = require ('inquirer');
 var async    = require ('async');
-var path     = require ('path');
 var xLog     = require ('xcraft-core-log') ('zog');
 xLog.verbosity (0); /* FIXME: make a builtin command */
 
 /* TODO: we must use commander in order to handle the non-shell side of
  *       zogShell.
  */
-
 
 var shellCommands = function (cmdList, busClient) {
   /* Builtin shell commands */
@@ -40,9 +38,7 @@ var shellCommands = function (cmdList, busClient) {
   return list;
 };
 
-
 var shellStart = function (busClient) {
-
   var mainShutdown = function () {
     busClient.stop (function (done) { /* jshint ignore:line */
       xLog.verb ('bus client stopped...');
