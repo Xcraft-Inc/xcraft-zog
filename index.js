@@ -29,9 +29,13 @@ var shellCommands = function (cmdList, busClient) {
     list[cmd] = {
       params  : cmdList[cmd].params,
       desc    : cmdList[cmd].desc,
-      handler : function () {
-        /* TODO: data and finishHandler */
-        busClient.command.send (cmdList[cmd].name, null, null);
+      handler : function (args) {
+        /* TODO: finishHandler */
+        if (cmdList[cmd].params) {
+          args[cmdList[cmd].params] = args;
+        }
+
+        busClient.command.send (cmdList[cmd].name, args, null);
       }
     };
   });
@@ -63,11 +67,13 @@ var shellStart = function (busClient) {
 
   async.forever (function (next) {
     inquirer.prompt (shell, function (answers) {
+      var cmd = answers.command.split (' ');
+
       try {
-        shellCmdList[answers.command].handler ();
+        shellCmdList[cmd[0]].handler (cmd[1]);
       } catch (ex) {
         if (answers.command.length) {
-          console.log ('command ' + answers.command + ' unknown');
+          console.log ('command ' + cmd[0] + ' unknown');
         }
       }
       next (exitShell ? 'good bye' : null);
@@ -98,9 +104,9 @@ var serverStart = function () {
       });
     };
 
-    var shellExecute = function (command) {
+    var shellExecute = function (command, args) {
       busClient.command.send (command);
-      busClient.command.send ('shutdown');
+      busClient.command.send ('shutdown', args);
     };
 
     busClient.events.subscribe ('disconnected', function (msg) {
@@ -115,7 +121,13 @@ var serverStart = function () {
     var cmdList = busClient.getCommandsRegistry ();
     Object.keys (cmdList).forEach (function (cmd) {
       program.option (cmd, cmdList[cmd].desc, function () {
-        shellExecute (cmd);
+        var args = null;
+
+        if (cmdList[cmd].params) {
+          args[cmdList[cmd].params] = program.cmd;
+        }
+
+        shellExecute (cmd, args);
       });
     });
 
