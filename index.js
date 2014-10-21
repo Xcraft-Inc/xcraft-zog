@@ -29,12 +29,13 @@ var shellCommands = function (cmdList, busClient) {
     list[cmd] = {
       params  : cmdList[cmd].params,
       desc    : cmdList[cmd].desc,
-      handler : function (args) {
-        /* TODO: finishHandler */
-        if (cmdList[cmd].params) {
-          args[cmdList[cmd].params] = args;
-        }
+      handler : function (arg) {
+        var args = {};
 
+        if (cmdList[cmd].params) {
+          args[cmdList[cmd].params] = arg;
+        }
+        /* TODO: finishHandler */
         busClient.command.send (cmdList[cmd].name, args, null);
       }
     };
