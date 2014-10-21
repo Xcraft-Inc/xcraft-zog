@@ -1,6 +1,7 @@
 'use strict';
 
 var inquirer = require ('inquirer');
+var program  = require ('commander');
 var async    = require ('async');
 var xLog     = require ('xcraft-core-log') ('zog');
 xLog.verbosity (0); /* FIXME: make a builtin command */
@@ -39,12 +40,6 @@ var shellCommands = function (cmdList, busClient) {
 };
 
 var shellStart = function (busClient) {
-  var mainShutdown = function () {
-    busClient.stop (function (done) { /* jshint ignore:line */
-      xLog.verb ('bus client stopped...');
-    });
-  };
-
   var shell = [{
     type    : 'input',
     name    : 'command',
@@ -65,10 +60,6 @@ var shellStart = function (busClient) {
   shellCmdList.exit.handler = function () {
     exitShell = true;
   };
-
-  busClient.events.subscribe ('disconnected', function (msg) {
-    mainShutdown ();
-  });
 
   async.forever (function (next) {
     inquirer.prompt (shell, function (answers) {
@@ -101,7 +92,55 @@ var serverStart = function () {
   var busClient = require ('xcraft-core-busclient');
 
   busClient.connect (null, function (err) {
-    shellStart (busClient);
+    var mainShutdown = function () {
+      busClient.stop (function (done) { /* jshint ignore:line */
+        xLog.verb ('bus client stopped...');
+      });
+    };
+
+    var shellExecute = function (command) {
+      busClient.command.send (command);
+      busClient.command.send ('shutdown');
+    };
+
+    busClient.events.subscribe ('disconnected', function (msg) {
+      mainShutdown ();
+    });
+
+    program
+      .version ('0.1.0')
+      .option ('-v, --verbosity <level>', 'change the verbosity level [0..3] (default: 1)', xLog.verbosity)
+      .option ('-n, --nocolor', 'disable the color output\n');
+
+    var cmdList = busClient.getCommandsRegistry ();
+    Object.keys (cmdList).forEach (function (cmd) {
+      program.option (cmd, cmdList[cmd].desc, function () {
+        shellExecute (cmd);
+      });
+    });
+
+    program.on ('--help', function () {
+      console.log ('  Informations:');
+      console.log ('');
+      console.log ('    Please be careful when using `zog clean` because the installed packages');
+      console.log ('    are not removed properly. For example, if a MSI was installed by a package,');
+      console.log ('    it will remains in the system. The reason is that only the devroot/ is');
+      console.log ('    deleted regardless of wpkg.');
+      console.log ('');
+      console.log ('  Examples:');
+      console.log ('');
+      console.log ('    $ zog lokthar install');
+      console.log ('    $ zog -n lokthar run');
+      console.log ('    $ zog edit libfoobar');
+      console.log ('    $ zog -v 0 make');
+      console.log ('');
+    });
+
+    program.parse (process.argv);
+
+    if (process.argv.length === 2) {
+      shellStart (busClient);
+    }
   });
 };
 
