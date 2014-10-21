@@ -105,8 +105,8 @@ var serverStart = function () {
     };
 
     var shellExecute = function (command, args) {
-      busClient.command.send (command);
-      busClient.command.send ('shutdown', args);
+      busClient.command.send (command, args);
+      busClient.command.send ('shutdown');
     };
 
     busClient.events.subscribe ('disconnected', function (msg) {
@@ -120,11 +120,17 @@ var serverStart = function () {
 
     var cmdList = busClient.getCommandsRegistry ();
     Object.keys (cmdList).forEach (function (cmd) {
-      program.option (cmd, cmdList[cmd].desc, function () {
-        var args = null;
+      var cmdInquirer = cmd;
+
+      if (cmdList[cmd].params) {
+        cmdInquirer += ' <' + cmdList[cmd].params + '>';
+      }
+
+      program.option (cmdInquirer, cmdList[cmd].desc, function (arg) {
+        var args = {};
 
         if (cmdList[cmd].params) {
-          args[cmdList[cmd].params] = program.cmd;
+          args[cmdList[cmd].params] = arg;
         }
 
         shellExecute (cmd, args);
