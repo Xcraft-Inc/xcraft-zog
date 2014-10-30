@@ -12,6 +12,8 @@ var options = {
 
 shellcraft.registerExtension (path.join (__dirname, 'extensions.js'), function () {
   shellcraft.begin (options, function (msg) {
-    console.log (msg);
+    if (msg) {
+      console.log (msg);
+    }
   });
 });
