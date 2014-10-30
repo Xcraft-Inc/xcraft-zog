@@ -24,10 +24,13 @@ exports.register = function (callback) {
 
     var cmdList = busClient.getCommandsRegistry ();
     Object.keys (cmdList).forEach (function (cmd) {
+      var options = cmdList[cmd].options || {};
+      options.params = cmdList[cmd].params;
+
       commands.push ({
         name    : cmd,
         desc    : cmdList[cmd].desc,
-        options : cmdList[cmd].options || {},
+        options : options,
         handler : function (callback, args) {
           var params = {};
 
