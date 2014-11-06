@@ -22,6 +22,26 @@ exports.register = function (callback) {
       mainShutdown ();
     });
 
+    busClient.events.subscribe ('pacman.list', function (msg) {
+      var util = require ('util');
+
+      var list = msg.data;
+      var header = util.format ('name%s version%s architectures',
+                                new Array (40 - 'name'.length).join (' '),
+                                new Array (15 - 'version'.length).join (' '));
+      console.log (header);
+      console.log (new Array (header.length + 1).join ('-'));
+
+      list.forEach (function (def) {
+        console.log ('%s%s %s%s',
+                     def.name,
+                     new Array (40 - def.name.length).join (' '),
+                     def.version,
+                     new Array (15 - def.version.toString ().length).join (' '),
+                     def.architecture.join (', '));
+      });
+    });
+
     var cmdList = busClient.getCommandsRegistry ();
     Object.keys (cmdList).forEach (function (cmd) {
       var options = cmdList[cmd].options || {};
