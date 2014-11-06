@@ -4,8 +4,8 @@
 var path       = require ('path');
 var shellcraft = require ('shellcraft');
 
-var zogLog = require ('xcraft-core-log') ('bus-server');
-zogLog.verbosity (process.env.XCRAFT_LOG ? parseInt (process.env.XCRAFT_LOG) : 2);
+var xLog = require ('xcraft-core-log') ('bus-server');
+xLog.verbosity (process.env.XCRAFT_LOG ? parseInt (process.env.XCRAFT_LOG) : 2);
 
 var options = {
   prompt: 'z0g>'
