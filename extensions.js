@@ -59,6 +59,8 @@ exports.register = function (callback) {
           }
 
           busClient.events.subscribe (cmdList[cmd].name + '.finished', function () {
+            busClient.events.unsubscribe (cmdList[cmd].name + '.added');
+            busClient.events.unsubscribe (cmdList[cmd].name + '.finished');
             callback ();
           });
 
