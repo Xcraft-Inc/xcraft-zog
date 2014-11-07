@@ -1,10 +1,12 @@
 'use strict';
 
+var clc = require ('cli-color');
+
 var xServer = require ('xcraft-core-server');
 xServer.fork (null, function (line) {
-  console.log ('server ' + process.pid + ': ' + line);
+  console.log ('[' + clc.magentaBright ('server') + ':' + clc.whiteBright.bold (process.pid) + ']: ' + line);
 }, function (line) {
-  console.log ('server ' + process.pid + ': ' + line);
+  console.log ('[' + clc.magentaBright ('server') + ':' + clc.whiteBright.bold (process.pid) + ']: ' + line);
 });
 
 var busClient = require ('xcraft-core-busclient');

@@ -14,7 +14,8 @@
     "xcraft-core-bin": "0.1.0",
     "xcraft-core-busclient": "0.1.0",
     "xcraft-core-server": "0.1.0",
-    "shellcraft": "0.2.x"
+    "shellcraft": "0.2.x",
+    "cli-color": "0.3.x"
   },
   "author": "Samuel Loup & Mathieu Schroeter",
   "license": "BSD-2-Clause"
