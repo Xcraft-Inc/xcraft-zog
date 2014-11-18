@@ -20,7 +20,10 @@ exports.register = function (callback) {
     var commands = [];
 
     var mainShutdown = function () {
-      busClient.stop (function (done) { /* jshint ignore:line */
+      busClient.stop (function (err) {
+        if (err) {
+          console.error (err);
+        }
       });
     };
 
