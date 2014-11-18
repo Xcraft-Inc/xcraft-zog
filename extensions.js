@@ -13,6 +13,10 @@ var busClient = require ('xcraft-core-busclient');
 
 exports.register = function (callback) {
   busClient.connect (null, function (err) {
+    if (err) {
+      console.error (err);
+    }
+
     var commands = [];
 
     var mainShutdown = function () {
