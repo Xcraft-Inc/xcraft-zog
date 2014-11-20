@@ -54,7 +54,6 @@ exports.register = function (callback) {
     var cmdList = busClient.getCommandsRegistry ();
     Object.keys (cmdList).forEach (function (cmd) {
       var options = cmdList[cmd].options || {};
-      options.params = cmdList[cmd].params;
 
       commands.push ({
         name    : cmd,
@@ -63,8 +62,14 @@ exports.register = function (callback) {
         handler : function (callback, args) {
           var params = {};
 
-          if (cmdList[cmd].params) {
-            params[cmdList[cmd].params] = args[0];
+          /* FIXME: handle more than one parameter. */
+          if (cmdList[cmd].hasOwnProperty ('options') &&
+              cmdList[cmd].options.hasOwnProperty ('params')) {
+            if (cmdList[cmd].options.params.hasOwnProperty ('required')) {
+              params[cmdList[cmd].options.params.required] = args[0];
+            } else if (cmdList[cmd].options.params.hasOwnProperty ('optional')) {
+              params[cmdList[cmd].options.params.optional] = args[0];
+            }
           }
 
           busClient.events.subscribe (cmdList[cmd].name + '.finished', function () {
