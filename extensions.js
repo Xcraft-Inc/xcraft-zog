@@ -61,14 +61,17 @@ exports.register = function (callback) {
         options : options,
         handler : function (callback, args) {
           var params = {};
+          var key = '';
 
           /* FIXME: handle more than one parameter. */
           if (cmdList[cmd].hasOwnProperty ('options') &&
               cmdList[cmd].options.hasOwnProperty ('params')) {
             if (cmdList[cmd].options.params.hasOwnProperty ('required')) {
-              params[cmdList[cmd].options.params.required] = args[0];
+              key = cmdList[cmd].options.params.required.replace (/[.]{3}$/, '');
+              params[key] = args[0];
             } else if (cmdList[cmd].options.params.hasOwnProperty ('optional')) {
-              params[cmdList[cmd].options.params.optional] = args[0];
+              key = cmdList[cmd].options.params.optional.replace (/[.]{3}$/, '');
+              params[key] = args[0];
             }
           }
 
