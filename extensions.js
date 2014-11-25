@@ -110,10 +110,11 @@ exports.register = function (callback) {
       });
     });
 
-    callback (commands);
+    callback (null, commands);
   });
 };
 
-exports.unregister = function () {
+exports.unregister = function (callback) {
   busClient.command.send ('shutdown');
+  callback ();
 };
