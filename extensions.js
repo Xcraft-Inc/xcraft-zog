@@ -11,13 +11,11 @@ xServer.fork (null, function (line) {
 
 var busClient = require ('xcraft-core-busclient');
 
-exports.register = function (callback) {
+exports.register = function (extension, callback) {
   busClient.connect (null, function (err) {
     if (err) {
       console.error (err);
     }
-
-    var commands = [];
 
     var mainShutdown = function () {
       busClient.stop (function (err) {
@@ -55,62 +53,57 @@ exports.register = function (callback) {
     Object.keys (cmdList).forEach (function (cmd) {
       var options = cmdList[cmd].options || {};
 
-      commands.push ({
-        name    : cmd,
-        desc    : cmdList[cmd].desc,
-        options : options,
-        handler : function (callback, args) {
-          var params = {};
-          var key = '';
+      extension.command (cmd, cmdList[cmd].desc, options, function (callback, args) {
+        var params = {};
+        var key = '';
 
-          /* FIXME: handle more than one parameter. */
-          if (cmdList[cmd].hasOwnProperty ('options') &&
-              cmdList[cmd].options.hasOwnProperty ('params')) {
-            if (cmdList[cmd].options.params.hasOwnProperty ('required')) {
-              key = cmdList[cmd].options.params.required.replace (/[.]{3}$/, '');
-              params[key] = args[0];
-            } else if (cmdList[cmd].options.params.hasOwnProperty ('optional')) {
-              key = cmdList[cmd].options.params.optional.replace (/[.]{3}$/, '');
-              params[key] = args[0];
-            }
+        /* FIXME: handle more than one parameter. */
+        if (cmdList[cmd].hasOwnProperty ('options') &&
+            cmdList[cmd].options.hasOwnProperty ('params')) {
+          if (cmdList[cmd].options.params.hasOwnProperty ('required')) {
+            key = cmdList[cmd].options.params.required.replace (/[.]{3}$/, '');
+            params[key] = args[0];
+          } else if (cmdList[cmd].options.params.hasOwnProperty ('optional')) {
+            key = cmdList[cmd].options.params.optional.replace (/[.]{3}$/, '');
+            params[key] = args[0];
           }
+        }
 
-          busClient.events.subscribe (cmdList[cmd].name + '.finished', function () {
-            busClient.events.unsubscribe (cmdList[cmd].name + '.added');
-            busClient.events.unsubscribe (cmdList[cmd].name + '.finished');
-            callback ();
-          });
+        busClient.events.subscribe (cmdList[cmd].name + '.finished', function () {
+          busClient.events.unsubscribe (cmdList[cmd].name + '.added');
+          busClient.events.unsubscribe (cmdList[cmd].name + '.finished');
+          callback ();
+        });
 
-          busClient.events.subscribe (cmdList[cmd].name + '.added', function (msg) {
-            var wizard = require (msg.data.wizardPath);
+        busClient.events.subscribe (cmdList[cmd].name + '.added', function (msg) {
+          var wizard = require (msg.data.wizardPath);
 
-            var i = 0;
-            wizard[msg.data.wizardName].forEach (function (input) {
-              Object.keys (msg.data.wizardDefaults).some (function (name) {
-                if (input.name === name) {
-                  wizard[msg.data.wizardName][i].default = msg.data.wizardDefaults[name];
-                  return true;
-                }
-                return false;
-              });
-              ++i;
-            });
-
-            callback (wizard[msg.data.wizardName], function (answers) {
-              msg.data.wizardAnswers.push (answers);
-              if (msg.data.nextCommand) {
-                busClient.command.send (msg.data.nextCommand, msg.data);
+          var i = 0;
+          wizard[msg.data.wizardName].forEach (function (input) {
+            Object.keys (msg.data.wizardDefaults).some (function (name) {
+              if (input.name === name) {
+                wizard[msg.data.wizardName][i].default = msg.data.wizardDefaults[name];
+                return true;
               }
               return false;
             });
+            ++i;
           });
 
-          busClient.command.send (cmdList[cmd].name, params);
-        }
+          callback (wizard[msg.data.wizardName], function (answers) {
+            msg.data.wizardAnswers.push (answers);
+            if (msg.data.nextCommand) {
+              busClient.command.send (msg.data.nextCommand, msg.data);
+            }
+            return false;
+          });
+        });
+
+        busClient.command.send (cmdList[cmd].name, params);
       });
     });
 
-    callback (null, commands);
+    callback ();
   });
 };
 
