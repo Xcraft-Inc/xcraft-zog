@@ -8,7 +8,8 @@ var xLog = require ('xcraft-core-log') ('bus-server');
 xLog.verbosity (process.env.XCRAFT_LOG ? parseInt (process.env.XCRAFT_LOG) : 2);
 
 var options = {
-  prompt: 'z0g>'
+  prompt: 'z0g>',
+  promptFixed: true
 };
 
 shellcraft.registerExtension (path.join (__dirname, '../lib/extensions.js'), function () {
