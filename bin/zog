@@ -1,15 +1,19 @@
 #!/usr/bin/env node
 'use strict';
 
+var fs         = require ('fs');
 var path       = require ('path');
 var shellcraft = require ('shellcraft');
 
 var xLog = require ('xcraft-core-log') ('bus-server');
 xLog.verbosity (process.env.XCRAFT_LOG ? parseInt (process.env.XCRAFT_LOG) : 2);
 
+var config = JSON.parse (fs.readFileSync (path.join (__dirname, '../package.json'), 'utf8'));
+
 var options = {
   prompt: 'z0g>',
-  promptFixed: true
+  promptFixed: true,
+  version: config.version
 };
 
 shellcraft.registerExtension (path.join (__dirname, '../lib/extensions.js'), function () {
