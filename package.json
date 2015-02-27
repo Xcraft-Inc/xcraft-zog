@@ -14,12 +14,12 @@
   },
   "dependencies": {
     "shellcraft": "^1.1.4",
-    "xcraft-materials": "0.1.0",
     "xcraft-core-bin": "0.1.0",
     "xcraft-core-busclient": "0.1.0",
     "xcraft-core-etc": "0.1.0",
     "xcraft-core-log": "0.1.0",
-    "xcraft-core-server": "0.1.0"
+    "xcraft-core-server": "0.1.0",
+    "xcraft-materials": "0.1.0"
   },
   "author": "Samuel Loup & Mathieu Schroeter",
   "license": "MIT"
