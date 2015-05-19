@@ -3,6 +3,7 @@
 
 var fs         = require ('fs');
 var path       = require ('path');
+var clc        = require ('cli-color');
 var shellcraft = require ('shellcraft');
 
 var xLog = require ('xcraft-core-log') ('bus-server');
@@ -11,7 +12,7 @@ xLog.verbosity (process.env.XCRAFT_LOG ? parseInt (process.env.XCRAFT_LOG) : 2);
 var config = JSON.parse (fs.readFileSync (path.join (__dirname, '../package.json'), 'utf8'));
 
 var options = {
-  prompt: 'z0g>',
+  prompt: 'z0g' + clc.blackBright (' //'),
   promptFixed: true,
   version: config.version
 };
