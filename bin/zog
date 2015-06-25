@@ -7,7 +7,7 @@ var clc        = require ('cli-color');
 var shellcraft = require ('shellcraft');
 
 var xLog = require ('xcraft-core-log') ('bus-server');
-xLog.verbosity (process.env.XCRAFT_LOG ? parseInt (process.env.XCRAFT_LOG) : 2);
+xLog.verbosity (process.env.ZOG_LOG ? parseInt (process.env.ZOG_LOG) : 2);
 
 var config = JSON.parse (fs.readFileSync (path.join (__dirname, '../package.json'), 'utf8'));
 
