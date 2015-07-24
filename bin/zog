@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 'use strict';
 
+var moduleName = 'zog';
+
 var fs         = require ('fs');
 var path       = require ('path');
 var clc        = require ('cli-color');
 var shellcraft = require ('shellcraft');
 
-var xLog = require ('xcraft-core-log') ('bus-server');
+var xLog = require ('xcraft-core-log') (moduleName);
 xLog.setVerbosity (process.env.ZOG_LOG ? parseInt (process.env.ZOG_LOG) : 2);
 
 var config = JSON.parse (fs.readFileSync (path.join (__dirname, '../package.json'), 'utf8'));
