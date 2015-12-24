@@ -15,7 +15,7 @@
   "dependencies": {
     "cli-color": "^1.0.0",
     "clone": "^1.0.2",
-    "shellcraft": "^1.1.7",
+    "shellcraft": "^1.1.10",
     "xcraft-core-bin": "0.1.0",
     "xcraft-core-busclient": "0.1.0",
     "xcraft-core-etc": "0.1.0",
