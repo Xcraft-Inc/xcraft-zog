@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "cli-color": "^1.0.0",
-    "shellcraft": "^1.1.10",
+    "shellcraft": "^1.2.2",
     "xcraft-core-busclient": "0.1.0",
     "xcraft-core-log": "0.1.0",
     "xcraft-core-server": "0.1.0",
