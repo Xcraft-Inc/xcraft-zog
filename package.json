@@ -1,17 +1,24 @@
 {
   "name": "xcraft-zog",
   "version": "0.1.0",
-  "description": "Xcraft Zog shell",
+  "description": "Xcraft Zog terminal",
   "bin": {
     "zog": "./bin/zog"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [
+    "xcraft",
+    "zog",
+    "terminal"
+  ],
   "repository": {
-    "type": "file",
-    "url": "lib/xcraft-zog"
+    "type": "git",
+    "url": "git+https://github.com/Xcraft-Inc/xcraft-zog.git"
   },
+  "author": "Samuel Loup & Mathieu Schroeter",
+  "license": "MIT",
   "dependencies": {
     "cli-color": "^1.0.0",
     "shellcraft": "^1.2.2",
@@ -20,6 +27,8 @@
     "xcraft-core-server": "^2.0.0",
     "xcraft-materials": "0.1.0"
   },
-  "author": "Samuel Loup & Mathieu Schroeter",
-  "license": "MIT"
+  "bugs": {
+    "url": "https://github.com/Xcraft-Inc/xcraft-zog/issues"
+  },
+  "homepage": "https://github.com/Xcraft-Inc/xcraft-zog#readme"
 }
