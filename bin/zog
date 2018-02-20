@@ -3,30 +3,30 @@
 
 var moduleName = 'zog';
 
-var fs = require ('fs');
-var path = require ('path');
-var clc = require ('cli-color');
-var shellcraft = require ('shellcraft');
+var fs = require('fs');
+var path = require('path');
+var clc = require('cli-color');
+var shellcraft = require('shellcraft');
 
-var xLog = require ('xcraft-core-log') (moduleName);
-xLog.setVerbosity (process.env.ZOG_LOG ? parseInt (process.env.ZOG_LOG) : 2);
+var xLog = require('xcraft-core-log')(moduleName);
+xLog.setVerbosity(process.env.ZOG_LOG ? parseInt(process.env.ZOG_LOG) : 2);
 
-var config = JSON.parse (
-  fs.readFileSync (path.join (__dirname, '../package.json'), 'utf8')
+var config = JSON.parse(
+  fs.readFileSync(path.join(__dirname, '../package.json'), 'utf8')
 );
 
 var options = {
-  prompt: 'z0g' + clc.blackBright (' //'),
+  prompt: 'z0g' + clc.blackBright(' //'),
   promptFixed: true,
   version: config.version,
 };
 
-shellcraft.registerExtension (
-  path.join (__dirname, '../lib/extensions.js'),
-  function () {
-    shellcraft.begin (options, function (msg) {
+shellcraft.registerExtension(
+  path.join(__dirname, '../lib/extensions.js'),
+  function() {
+    shellcraft.begin(options, function(msg) {
       if (msg) {
-        console.log (msg);
+        console.log(msg);
       }
     });
   }
