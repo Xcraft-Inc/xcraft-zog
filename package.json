@@ -25,7 +25,7 @@
     "xcraft-core-busclient": "^2.0.0",
     "xcraft-core-log": "^1.0.0",
     "xcraft-core-server": "^3.0.0",
-    "xcraft-materials": "^0.1.0"
+    "xcraft-materials": "^0.2.0"
   },
   "bugs": {
     "url": "https://github.com/Xcraft-Inc/xcraft-zog/issues"
