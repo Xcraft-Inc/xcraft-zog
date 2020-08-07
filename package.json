@@ -22,11 +22,11 @@
   "dependencies": {
     "cli-color": "^1.0.0",
     "shellcraft": "^1.2.2",
-    "xcraft-core-busclient": "^3.0.0",
+    "xcraft-core-busclient": "^4.0.0",
     "xcraft-core-host": "^2.2.0",
-    "xcraft-core-log": "^1.0.0",
-    "xcraft-core-server": "^4.0.0",
-    "xcraft-materials": "^0.2.0"
+    "xcraft-core-log": "^1.3.0",
+    "xcraft-core-server": "^5.0.0",
+    "xcraft-materials": "^0.2.2"
   },
   "bugs": {
     "url": "https://github.com/Xcraft-Inc/xcraft-zog/issues"
