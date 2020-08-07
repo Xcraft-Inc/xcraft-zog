@@ -1,6 +1,6 @@
 {
   "name": "xcraft-zog",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Xcraft Zog terminal",
   "bin": {
     "zog": "./bin/zog"
