@@ -23,8 +23,8 @@ var options = {
 
 shellcraft.registerExtension(
   path.join(__dirname, '../lib/extensions.js'),
-  function() {
-    shellcraft.begin(options, function(msg) {
+  function () {
+    shellcraft.begin(options, function (msg) {
       if (msg) {
         console.log(msg);
       }
