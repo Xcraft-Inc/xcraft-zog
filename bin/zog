@@ -5,7 +5,7 @@ var moduleName = 'zog';
 
 var fs = require('fs');
 var path = require('path');
-var clc = require('cli-color');
+var colors = require('picocolors').createColors(true);
 var shellcraft = require('shellcraft');
 
 var xLog = require('xcraft-core-log')(moduleName);
@@ -16,7 +16,7 @@ var config = JSON.parse(
 );
 
 var options = {
-  prompt: 'z0g' + clc.blackBright(' //'),
+  prompt: 'z0g' + colors.blackBright(' //'),
   promptFixed: true,
   version: config.version,
 };
