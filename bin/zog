@@ -31,3 +31,6 @@ shellcraft.registerExtension(
     });
   }
 );
+
+/* Prevent SIGINT default handler */
+process.on('SIGINT', () => {});
