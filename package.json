@@ -26,7 +26,7 @@
   "license": "MIT",
   "dependencies": {
     "picocolors": "^1.1.1",
-    "shellcraft": "^1.2.2",
+    "shellcraft": "^1.4.0",
     "xcraft-core-busclient": "^5.0.0",
     "xcraft-core-etc": "^3.0.0",
     "xcraft-core-host": "^3.0.0",
