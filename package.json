@@ -30,7 +30,7 @@
     "xcraft-core-busclient": "^5.0.0",
     "xcraft-core-etc": "^3.0.0",
     "xcraft-core-host": "^3.0.0",
-    "xcraft-core-log": "^2.0.0",
+    "xcraft-core-log": "^2.4.1",
     "xcraft-core-server": "^6.0.0",
     "xcraft-materials": "^0.2.3"
   },
